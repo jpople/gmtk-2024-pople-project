@@ -12,8 +12,12 @@ public partial class GridCell : Node   {
         this.contents = gcc;
     }
 
+    public void changeContents (GridCellContents contents)   {
+        this.contents = contents;
+    }
+
     public void update()   {
-        GD.Print(toString());
+        //GD.Print(toString());
     }
 
     public String toString()    {
