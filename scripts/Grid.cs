@@ -65,7 +65,7 @@ public void update()   {
 
 	public void addBlock (List<GridCell> location)  {
 		foreach (GridCell cell in location)  {
-			cell.changeContents(GridCellContents.Block);
+			cell.setContents(GridCellContents.Block);
 		}
 	}
 

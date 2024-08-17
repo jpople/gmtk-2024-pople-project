@@ -17,9 +17,9 @@ public partial class Block : Node   {
 	public void move(GridDirection direction)  {
 		if(canMove(direction))  {
 			for (int i = location.Count-1;i >= 0 ;i--) {
-				location[i].changeContents(GridCellContents.Empty);
+				location[i].setContents(GridCellContents.Empty);
 				location[i] = location[i].getNeighbor(direction);
-				location[i].changeContents(GridCellContents.Block);
+				location[i].setContents(GridCellContents.Block);
 			}    
 		}
 	}
@@ -29,6 +29,9 @@ public partial class Block : Node   {
 		{
 			if (cell.getNeighbor(direction) == null)
 				return false;
+			else if (cell.getNeighbor(direction).getContents() == GridCellContents.Block && location.Contains(cell.getNeighbor(direction)) == false)   {
+				return false;
+			}
 		}
 		return true;
 	}

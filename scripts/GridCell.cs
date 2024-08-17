@@ -14,8 +14,12 @@ public partial class GridCell : Node   {
 		this.contents = gcc;
 	}
 
-	public void changeContents (GridCellContents contents)   {
+	public void setContents (GridCellContents contents)   {
 		this.contents = contents;
+	}
+
+	public GridCellContents getContents()	{
+		return contents;
 	}
 
 	public void setNeighbor (GridDirection direction, GridCell cell)   {
