@@ -17,7 +17,7 @@ public partial class Grid : Node   {
 	}
 
 //Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
-void update()   {
+public void update()   {
 		int rows = cells.GetLength(0);
 		int columns = cells.GetLength(1);
 
@@ -44,9 +44,22 @@ void update()   {
 		{
 			for (int j = 0; j < width; j++)
 			{
-
-				cells[i, j] = new GridCell();
+				GridCell gc = new GridCell();
+				cells[i, j] = gc;
+				addNeighbors(i,j,gc);
 			}
+		}
+	}
+
+	void addNeighbors (int row, int column, GridCell cell) {
+		if(column > 0) {
+			cell.setNeighbor(GridDirection.W,cells[row,column-1]);
+			if (row > 0)    {
+				cell.setNeighbor(GridDirection.NW,cells[row-1,column-1]);
+			}
+		}
+		if (row > 0)    {
+				cell.setNeighbor(GridDirection.N,cells[row-1,column]);
 		}
 	}
 

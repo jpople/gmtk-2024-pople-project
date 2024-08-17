@@ -9,6 +9,10 @@ public partial class Block : Node   {
         this.location = location;
         this.type = type;
     }
+
+    public void update()    {
+
+    }
 }
 
 public enum BlockType   {

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 public class GridController   {
 
 	private Grid grid;
-	//private Block[] blocks;
+	private List<Block> blocks;
 
 	public void createGrid()   {
 		grid = Grid.initialize(GridData.DEFAULT_GRID_HEIGHT, GridData.DEFAULT_GRID_WIDTH);
+		blocks = new List<Block>();
 	}
 
 	public void addBlock(int column, BlockType type)    {
@@ -35,6 +36,15 @@ public class GridController   {
 		}
 
 		grid.addBlock(location);
+		blocks.Add(new Block(type, location));
+	}
+
+	public void update()    {
+		grid.update();
+		foreach (Block block in blocks)
+		{
+			block.update();
+		}
 	}
 
 	public void printGrid() {
