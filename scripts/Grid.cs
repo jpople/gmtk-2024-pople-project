@@ -63,7 +63,7 @@ public void update()   {
 		}
 	}
 
-	public void addBlock (HashSet<GridCell> location)  {
+	public void addBlock (List<GridCell> location)  {
 		foreach (GridCell cell in location)  {
 			cell.changeContents(GridCellContents.Block);
 		}

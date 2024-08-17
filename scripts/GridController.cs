@@ -12,7 +12,7 @@ public class GridController   {
 	}
 
 	public void addBlock(int column, BlockType type)    {
-		HashSet<GridCell> location = new HashSet<GridCell>();
+		List<GridCell> location = new List<GridCell>();
 
 		if (column < 0)
 			column = 0;
@@ -37,6 +37,14 @@ public class GridController   {
 
 		grid.addBlock(location);
 		blocks.Add(new Block(type, location));
+		update();
+	}
+
+	public void moveBlocks()	{
+		foreach (Block block in blocks)	{
+			block.move(GridDirection.S);
+		}
+		update();
 	}
 
 	public void update()    {
