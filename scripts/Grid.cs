@@ -16,6 +16,13 @@ public partial class Grid : Node   {
 		return grid;
 	}
 
+	public static Grid initialize(int[,] map)	{
+		Grid grid = new Grid();
+		grid.createCells(map);
+		grid.update();
+		return grid;
+	}
+
 //Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
 	public void update()   {
 		int rows = cells.GetLength(0);
@@ -44,11 +51,30 @@ public partial class Grid : Node   {
 		{
 			for (int j = 0; j < width; j++)
 			{
-				GridCell gc = new GridCell();
-				cells[i, j] = gc;
-				addNeighbors(i,j,gc);
+				createCell(GridCellContents.Empty,i,j);
 			}
 		}
+	}
+
+	void createCells(int[,] map)  {
+		this.height = map.GetLength(0);
+		this.width = map.GetLength(1);
+
+		cells = new GridCell[height, width];
+
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				createCell((GridCellContents)map[i,j],i,j);
+			}
+		}
+	}
+
+	void createCell(GridCellContents contents, int row, int column)	{
+		GridCell gc = new GridCell(contents, row, column);
+		cells[row, column] = gc;
+		addNeighbors(row,column,gc);
 	}
 
 	void addNeighbors (int row, int column, GridCell cell) {

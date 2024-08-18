@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 
 public class GridController   {
 
@@ -14,18 +13,14 @@ public class GridController   {
 		jewels = new List<Jewel>();
 	}
 
+	public void createGrid(int[,] grid)	{
+		this.grid = Grid.initialize(grid);
+		blocks = new List<Block>();
+		jewels = new List<Jewel>();
+	}
+
 	public void addBlock(int column, BlockType type)    {
-		if (column < 0)
-			column = 0;
-		else if (column > grid.width)
-			column = grid.width;
-
-		if (column+2 >= grid.width)
-			column -= 2;
-		else if (column+1 >= grid.width)
-			column -= 1;
-
-		List<GridCell> location = getBlockLocation(column, type);
+		List<GridCell> location = determineBlockLocations(column, type);
 
 		grid.addBlock(location);
 		blocks.Add(new Block(type, location,grid));
@@ -41,7 +36,18 @@ public class GridController   {
 		update();
 	}
 
-	List<GridCell> getBlockLocation(int column, BlockType type)	{
+	List<GridCell> determineBlockLocations(int column, BlockType type)	{
+
+		if (column < 0)
+			column = 0;
+		else if (column > grid.width)
+			column = grid.width;
+
+		if (column+2 >= grid.width)
+			column -= 2;
+		else if (column+1 >= grid.width)
+			column -= 1;
+
 		List<GridCell> location = new List<GridCell>();
 
 		int[,] pattern = type.getPattern();

@@ -6,15 +6,11 @@ public partial class GridCell : Node   {
 	private GridCell[] neighbors;
 	private int row, column;
 
-	public GridCell()   {
-		this.contents = GridCellContents.Empty;
-		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
-	}
-
 	public GridCell(GridCellContents contents, int row, int column)  {
 		this.contents = contents;
 		this.row = row;
 		this.column = column;
+		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
 	}
 
 	public void setContents (GridCellContents contents)   {
@@ -54,5 +50,6 @@ public partial class GridCell : Node   {
 public enum GridCellContents {
 	Empty,
 	Block,
-	Jewel
+	Jewel,
+	Enemy
 }
