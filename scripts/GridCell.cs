@@ -18,10 +18,11 @@ public partial class GridCell : Node {
 		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
 	}
 
-	public GridCell(GridCellContents contents, int row, int column) {
+	public GridCell(int row, int column, GridCellContents contents = GridCellContents.Empty) {
 		this.contents = contents;
 		this.row = row;
 		this.column = column;
+		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
 	}
 
 	public void setContents(GridCellContents contents) {
@@ -49,12 +50,8 @@ public partial class GridCell : Node {
 		return column;
 	}
 
-	public void update() {
-		//GD.Print(toString());
-	}
-
-	public String toString() {
-		return "" + contents;
+	public override string ToString() {
+		return $"{ASCIIMap[contents]}";
 	}
 }
 

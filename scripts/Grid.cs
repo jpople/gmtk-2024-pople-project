@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Godot;
 
 public partial class Grid : Node {
 	private GridCell[,] cells;
-	public GridCell[,] Cells { get; }
+	public GridCell[,] Cells { get => cells; }
 
 	public int width = GridData.DEFAULT_GRID_WIDTH;
 	public int height = GridData.DEFAULT_GRID_HEIGHT;
@@ -24,7 +25,7 @@ public partial class Grid : Node {
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				cells[i, j].update();
+				// cells[i, j].update();
 			}
 		}
 
@@ -38,7 +39,7 @@ public partial class Grid : Node {
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				GridCell gc = new GridCell();
+				GridCell gc = new GridCell(row: i, column: j);
 				cells[i, j] = gc;
 				addNeighbors(i, j, gc);
 			}
@@ -73,7 +74,7 @@ public partial class Grid : Node {
 
 		for (int i = 0; i < GridData.DEFAULT_GRID_HEIGHT; i++) {
 			for (int j = 0; j < GridData.DEFAULT_GRID_WIDTH; j++) {
-				print += GridCell.ASCIIMap[cells[i, j].getContents()] + "\t";
+				print += $"{cells[i, j]}";
 			}
 			print += "\n";
 		}

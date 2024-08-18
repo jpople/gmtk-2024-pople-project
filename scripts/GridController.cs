@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using Godot;
 
 public class GridController {
 
@@ -74,7 +75,5 @@ public class GridController {
 		grid.print();
 	}
 
-	public GridCell[,] GetCells() {
-		return grid.Cells;
-	}
+	public GridCell[,] GetCells() => grid.Cells;
 }
