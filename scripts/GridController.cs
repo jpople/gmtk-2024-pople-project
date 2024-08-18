@@ -14,13 +14,13 @@ public class GridController {
 		jewels = new List<Jewel>();
 	}
 
-	public void createGrid(int[,] grid)	{
+	public void createGrid(int[,] grid) {
 		this.grid = Grid.initialize(grid);
 		blocks = new List<Block>();
 		jewels = new List<Jewel>();
 	}
 
-	public void addBlock(int column, BlockType type)    {
+	public void addBlock(int column, BlockType type) {
 		List<GridCell> location = determineBlockLocations(column, type);
 
 		grid.addBlock(location);
@@ -37,16 +37,18 @@ public class GridController {
 		update();
 	}
 
-	List<GridCell> determineBlockLocations(int column, BlockType type)	{
+
+
+	List<GridCell> determineBlockLocations(int column, BlockType type) {
 
 		if (column < 0)
 			column = 0;
 		else if (column > grid.width)
 			column = grid.width;
 
-		if (column+2 >= grid.width)
+		if (column + 2 >= grid.width)
 			column -= 2;
-		else if (column+1 >= grid.width)
+		else if (column + 1 >= grid.width)
 			column -= 1;
 
 		List<GridCell> location = new List<GridCell>();
@@ -82,4 +84,6 @@ public class GridController {
 	}
 
 	public GridCell[,] GetCells() => grid.Cells;
+	public (int column, BlockType block) GetCursorState() => grid.GetCursorState();
+	public void MoveCursor(int direction) => grid.MoveCursor(direction);
 }

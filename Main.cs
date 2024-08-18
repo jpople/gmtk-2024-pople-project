@@ -33,6 +33,12 @@ public partial class Main : Node2D {
             };
             DrawTexture(texture, position);
         }
+        (int cursorLocation, BlockType heldBlock) = controller.GetCursorState();
+        var cursorPosition = new Vector2() {
+            X = cursorLocation * GridData.CELL_WIDTH,
+            Y = 0
+        };
+        DrawTexture(brickTexture, cursorPosition, new Color(1, 1, 1, 0.5f));
     }
 
     private void Advance() {
@@ -46,9 +52,21 @@ public partial class Main : Node2D {
     }
 
     public override void _Input(InputEvent @event) {
-        if (@event is not InputEventKey e || e.Keycode != Key.Space || !e.Pressed) {
+        if (@event is not InputEventKey e || !e.Pressed) {
             return;
         }
-        Advance();
+        switch (e.Keycode) {
+            case Key.Space:
+                Advance();
+                break;
+            case Key.Left:
+                controller.MoveCursor(-1);
+                Advance();
+                break;
+            case Key.Right:
+                controller.MoveCursor(+1);
+                Advance();
+                break;
+        }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using Godot;
 
 public partial class Grid : Node {
@@ -10,23 +9,28 @@ public partial class Grid : Node {
 	public int width = GridData.DEFAULT_GRID_WIDTH;
 	public int height = GridData.DEFAULT_GRID_HEIGHT;
 
+	BlockType heldBlock;
+	int cursorLocation;
+
 	//Static method to generate a gride based on width and height
 	public static Grid initialize() {
 		Grid grid = new Grid();
 		grid.createCells();
 		grid.update();
+		grid.heldBlock = BlockType.oneSquare;
 		return grid;
 	}
 
-	public static Grid initialize(int[,] map)	{
+	public static Grid initialize(int[,] map) {
 		Grid grid = new Grid();
 		grid.createCells(map);
 		grid.update();
+		grid.heldBlock = BlockType.oneSquare;
 		return grid;
 	}
 
-//Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
-	public void update()   {
+	//Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
+	public void update() {
 		int rows = cells.GetLength(0);
 		int columns = cells.GetLength(1);
 
@@ -44,41 +48,37 @@ public partial class Grid : Node {
 	void createCells() {
 		cells = new GridCell[height, width];
 
-		for (int i = 0; i < height; i++)
-		{
-			for (int j = 0; j < width; j++)
-			{
-				createCell(GridCellContents.Empty,i,j);
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				createCell(GridCellContents.Empty, i, j);
 			}
 		}
 	}
 
-	void createCells(int[,] map)  {
+	void createCells(int[,] map) {
 		this.height = map.GetLength(0);
 		this.width = map.GetLength(1);
 
 		cells = new GridCell[height, width];
 
-		for (int i = 0; i < height; i++)
-		{
-			for (int j = 0; j < width; j++)
-			{
-				createCell((GridCellContents)map[i,j],i,j);
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				createCell((GridCellContents)map[i, j], i, j);
 			}
 		}
 	}
 
-	void createCell(GridCellContents contents, int row, int column)	{
+	void createCell(GridCellContents contents, int row, int column) {
 		GridCell gc = new GridCell(row, column, contents);
 		cells[row, column] = gc;
-		addNeighbors(row,column,gc);
+		addNeighbors(row, column, gc);
 	}
 
-	void addNeighbors (int row, int column, GridCell cell) {
-		if(column > 0) {
-			cell.setNeighbor(GridDirection.W,cells[row,column-1]);
-			if (row > 0)    {
-				cell.setNeighbor(GridDirection.NW,cells[row-1,column-1]);
+	void addNeighbors(int row, int column, GridCell cell) {
+		if (column > 0) {
+			cell.setNeighbor(GridDirection.W, cells[row, column - 1]);
+			if (row > 0) {
+				cell.setNeighbor(GridDirection.NW, cells[row - 1, column - 1]);
 			}
 		}
 		if (row > 0) {
@@ -94,6 +94,13 @@ public partial class Grid : Node {
 
 	public void addJewel(GridCell location) {
 		location.setContents(GridCellContents.Jewel);
+	}
+
+	public void MoveCursor(int direction) {
+		if (direction != 1 && direction != -1) {
+			throw new ArgumentException("movement must be 1 or -1");
+		}
+		cursorLocation += direction;
 	}
 
 	//Print grid to console for debugging
@@ -113,4 +120,6 @@ public partial class Grid : Node {
 	public GridCell getGridCell(int column, int row) {
 		return cells[column, row];
 	}
+
+	public (int column, BlockType type) GetCursorState() => (cursorLocation, heldBlock);
 }
