@@ -7,17 +7,20 @@ public class GridController {
 	public Grid grid;
 	private List<Block> blocks;
 	private List<Jewel> jewels;
+	private List<Enemy> enemies;
 
 	public void createGrid() {
 		grid = Grid.initialize();
 		blocks = new List<Block>();
 		jewels = new List<Jewel>();
+		enemies = new List<Enemy>();
 	}
 
 	public void createGrid(int[,] grid)	{
 		this.grid = Grid.initialize(grid);
 		blocks = new List<Block>();
 		jewels = new List<Jewel>();
+		enemies = new List<Enemy>();
 	}
 
 	public void addBlock(int column, BlockType type)    {
@@ -33,6 +36,14 @@ public class GridController {
 		GridCell location = grid.getGridCell(grid.height - 1, column);
 		grid.addJewel(location);
 		jewels.Add(new Jewel(location));
+
+		update();
+	}
+
+	public void addEnemy(int row, int column)	{
+		GridCell location = grid.getGridCell(row, column);
+		grid.addEnemy(location);
+		enemies.Add(new Enemy(grid, location));
 
 		update();
 	}
@@ -66,6 +77,13 @@ public class GridController {
 	public void moveBlocks() {
 		foreach (Block block in blocks) {
 			block.move(GridDirection.S);
+		}
+		update();
+	}
+
+	public void moveEnemies()	{
+		foreach (Enemy enemy in enemies)	{
+			enemy.move();
 		}
 		update();
 	}
