@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Godot;
 
-public partial class Grid : Node   {
+public partial class Grid : Node {
 	private GridCell[,] cells;
+	public GridCell[,] Cells { get => cells; }
 
-	public int width;
-	public int height;
+	public int width = GridData.DEFAULT_GRID_WIDTH;
+	public int height = GridData.DEFAULT_GRID_HEIGHT;
 
-//Static method to generate a gride based on width and height
-	public static Grid initialize(int width, int height)   {
+	//Static method to generate a gride based on width and height
+	public static Grid initialize() {
 		Grid grid = new Grid();
-		grid.createCells(width, height);
+		grid.createCells();
 		grid.update();
 		return grid;
 	}
@@ -28,11 +30,9 @@ public partial class Grid : Node   {
 		int rows = cells.GetLength(0);
 		int columns = cells.GetLength(1);
 
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < columns; j++)
-			{
-				cells[i, j].update();
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				// cells[i, j].update();
 			}
 		}
 
@@ -40,11 +40,8 @@ public partial class Grid : Node   {
 	}
 
 
-//Builds cell array and populate with empty instances
-	void createCells(int height, int width)  {
-		this.width = width;
-		this.height = height;
-
+	//Builds cell array and populate with empty instances
+	void createCells() {
 		cells = new GridCell[height, width];
 
 		for (int i = 0; i < height; i++)
@@ -72,7 +69,7 @@ public partial class Grid : Node   {
 	}
 
 	void createCell(GridCellContents contents, int row, int column)	{
-		GridCell gc = new GridCell(contents, row, column);
+		GridCell gc = new GridCell(row, column, contents);
 		cells[row, column] = gc;
 		addNeighbors(row,column,gc);
 	}
@@ -84,33 +81,28 @@ public partial class Grid : Node   {
 				cell.setNeighbor(GridDirection.NW,cells[row-1,column-1]);
 			}
 		}
-		if (row > 0)    {
-				cell.setNeighbor(GridDirection.N,cells[row-1,column]);
+		if (row > 0) {
+			cell.setNeighbor(GridDirection.N, cells[row - 1, column]);
 		}
 	}
 
-	public void addBlock (List<GridCell> location)  {
-		foreach (GridCell cell in location)  {
+	public void addBlock(List<GridCell> location) {
+		foreach (GridCell cell in location) {
 			cell.setContents(GridCellContents.Block);
 		}
 	}
 
-	public void addJewel (GridCell location)	{
+	public void addJewel(GridCell location) {
 		location.setContents(GridCellContents.Jewel);
 	}
 
-//Print grid to console for debugging
-	public void print()    {
-		String print = "";
+	//Print grid to console for debugging
+	public void print() {
+		string print = "";
 
-		int rows = cells.GetLength(0);
-		int columns = cells.GetLength(1);
-
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < columns; j++)
-			{
-				print += cells[i, j].toString() + "\t";
+		for (int i = 0; i < GridData.DEFAULT_GRID_HEIGHT; i++) {
+			for (int j = 0; j < GridData.DEFAULT_GRID_WIDTH; j++) {
+				print += $"{cells[i, j]}";
 			}
 			print += "\n";
 		}
@@ -118,7 +110,7 @@ public partial class Grid : Node   {
 		GD.Print(print);
 	}
 
-	public GridCell getGridCell(int column, int row)   {
-		return cells[column,row];
+	public GridCell getGridCell(int column, int row) {
+		return cells[column, row];
 	}
 }

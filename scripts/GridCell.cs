@@ -1,49 +1,57 @@
 using System;
+using System.Collections.Generic;
 using Godot;
-public partial class GridCell : Node   {
+public partial class GridCell : Node {
 
 	private GridCellContents contents;
 	private GridCell[] neighbors;
 	private int row, column;
 
-	public GridCell(GridCellContents contents, int row, int column)  {
+	public static Dictionary<GridCellContents, char> ASCIIMap = new() {
+		{GridCellContents.Empty, '.'},
+		{GridCellContents.Jewel, '*'},
+		{GridCellContents.Block, 'X'}
+	};
+
+	public GridCell() {
+		this.contents = GridCellContents.Empty;
+		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
+	}
+
+	public GridCell(int row, int column, GridCellContents contents = GridCellContents.Empty) {
 		this.contents = contents;
 		this.row = row;
 		this.column = column;
 		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
 	}
 
-	public void setContents (GridCellContents contents)   {
+	public void setContents(GridCellContents contents) {
 		this.contents = contents;
 	}
 
-	public GridCellContents getContents()	{
+	public GridCellContents getContents() {
 		return contents;
 	}
 
-	public void setNeighbor (GridDirection direction, GridCell cell)   {
+	public void setNeighbor(GridDirection direction, GridCell cell) {
 		neighbors[(int)direction] = cell;
 		cell.neighbors[(int)direction.opposite()] = this;
 	}
 
-	public GridCell getNeighbor (GridDirection direction)   {
+	public GridCell getNeighbor(GridDirection direction) {
 		return neighbors[(int)direction];
 	}
 
-	public int getRow()	{
+	public int getRow() {
 		return row;
 	}
 
-	public int getColumn()	{
+	public int getColumn() {
 		return column;
 	}
 
-	public void update()   {
-		//GD.Print(toString());
-	}
-
-	public String toString()    {
-		return "" + contents;
+	public override string ToString() {
+		return $"{ASCIIMap[contents]}";
 	}
 }
 
