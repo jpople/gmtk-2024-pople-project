@@ -8,6 +8,7 @@ public enum BlockType {
 	smallL,
 	bigL,
 	smallT,
+	pyramid,
 	none
 }
 
@@ -16,8 +17,8 @@ public static class BlockTypeHelper {
 		switch (block) {
 			case BlockType.oneSquare:
 				int[,] os = {{1, 0, 0},
-						 {0, 0, 0},
-						 {0, 0, 0}};
+							 {0, 0, 0},
+						 	{0, 0, 0}};
 				return os;
 
 			case BlockType.twoSquare:
@@ -43,9 +44,14 @@ public static class BlockTypeHelper {
 						 	 {1, 1, 0},
 						 	 {0, 1, 0}};
 				return bt;
+			case BlockType.pyramid:
+				int[,] p = {{0, 0, 0},
+						 	 {0, 1, 0},
+						 	 {1, 1, 1}};
+				return p;
 		}
 		return null;
 	}
 
-	public static BlockType GetRandomBlockType() => (BlockType)(GD.Randi() % Enum.GetValues<BlockType>().Length);
+	public static BlockType GetRandomBlockType() => (BlockType)(GD.Randi() % Enum.GetValues<BlockType>().Length-1);
 }

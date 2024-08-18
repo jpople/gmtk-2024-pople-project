@@ -64,9 +64,9 @@ public class GridController {
 		else if (column > grid.width)
 			column = grid.width;
 
-		if (column+2 >= grid.width)
+		if (type == BlockType.pyramid && column+2 >= grid.width)
 			column -= 2;
-		else if (column+1 >= grid.width)
+		else if (type != BlockType.oneSquare && column+1 >= grid.width)
 			column -= 1;
 
 		List<GridCell> location = new List<GridCell>();
