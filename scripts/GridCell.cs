@@ -10,7 +10,8 @@ public partial class GridCell : Node {
 	public static Dictionary<GridCellContents, char> ASCIIMap = new() {
 		{GridCellContents.Empty, '.'},
 		{GridCellContents.Jewel, '*'},
-		{GridCellContents.Block, 'X'}
+		{GridCellContents.Block, 'X'},
+		{GridCellContents.Enemy, '%'}
 	};
 
 	public GridCell() {

@@ -24,6 +24,8 @@ public partial class Grid : Node {
 	public static Grid initialize(int[,] map) {
 		Grid grid = new Grid();
 		grid.createCells(map);
+		grid.height = map.GetLength(0);
+		grid.width = map.GetLength(1);
 		grid.update();
 		grid.heldBlock = BlockType.oneSquare;
 		return grid;
@@ -103,12 +105,16 @@ public partial class Grid : Node {
 		cursorLocation += direction;
 	}
 
+	public void addEnemy(GridCell location) {
+		location.setContents(GridCellContents.Enemy);
+	}
+
 	//Print grid to console for debugging
 	public void print() {
 		string print = "";
 
-		for (int i = 0; i < GridData.DEFAULT_GRID_HEIGHT; i++) {
-			for (int j = 0; j < GridData.DEFAULT_GRID_WIDTH; j++) {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
 				print += $"{cells[i, j]}";
 			}
 			print += "\n";
