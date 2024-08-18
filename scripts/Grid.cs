@@ -9,7 +9,12 @@ public partial class Grid : Node {
 	public int width = GridData.DEFAULT_GRID_WIDTH;
 	public int height = GridData.DEFAULT_GRID_HEIGHT;
 
-	BlockType heldBlock;
+	BlockType heldBlock = BlockType.none;
+	public BlockType HeldBlock {
+		get => heldBlock;
+		set => value = heldBlock;
+	}
+
 	int cursorLocation;
 
 	//Static method to generate a gride based on width and height
@@ -102,7 +107,7 @@ public partial class Grid : Node {
 		if (direction != 1 && direction != -1) {
 			throw new ArgumentException("movement must be 1 or -1");
 		}
-		cursorLocation += direction;
+		cursorLocation = Mathf.Clamp(cursorLocation + direction, 0, GridData.DEFAULT_GRID_WIDTH - 1);
 	}
 
 	public void addEnemy(GridCell location) {

@@ -32,6 +32,12 @@ public class GridController {
 		update();
 	}
 
+	public void PlaceHeldBlock() {
+		(int location, BlockType type) = grid.GetCursorState();
+		addBlock(location, type);
+		grid.HeldBlock = BlockType.none;
+	}
+
 	public void addJewel(int column) {
 		GridCell location = grid.getGridCell(grid.height - 1, column);
 		grid.addJewel(location);

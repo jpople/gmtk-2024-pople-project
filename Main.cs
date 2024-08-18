@@ -33,7 +33,10 @@ public partial class Main : Node2D {
             };
             DrawTexture(texture, position);
         }
-        (int cursorLocation, BlockType heldBlock) = controller.GetCursorState();
+        (int cursorLocation, BlockType? heldBlock) = controller.GetCursorState();
+        if (heldBlock == BlockType.none) {
+            return;
+        }
         var cursorPosition = new Vector2() {
             X = cursorLocation * GridData.CELL_WIDTH,
             Y = 0
@@ -43,11 +46,6 @@ public partial class Main : Node2D {
 
     private void Advance() {
         controller.moveBlocks();
-        if (GD.Randf() < 0.2f) {
-            var randomColumn = (int)(GD.Randi() % GridData.DEFAULT_GRID_WIDTH);
-            var randomBlockType = (int)(GD.Randi() % Enum.GetValues<BlockType>().Length);
-            controller.addBlock(randomColumn, (BlockType)randomBlockType);
-        }
         QueueRedraw();
     }
 
@@ -57,6 +55,7 @@ public partial class Main : Node2D {
         }
         switch (e.Keycode) {
             case Key.Space:
+                controller.PlaceHeldBlock();
                 Advance();
                 break;
             case Key.Left:

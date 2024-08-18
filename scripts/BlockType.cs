@@ -6,7 +6,8 @@ public enum BlockType {
 	oneSquare,
 	twoSquare,
 	smallL,
-	bigL
+	bigL,
+	none,
 }
 
 public static class BlockTypeHelper {
