@@ -17,7 +17,7 @@ public partial class Grid : Node   {
 	}
 
 //Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
-public void update()   {
+	public void update()   {
 		int rows = cells.GetLength(0);
 		int columns = cells.GetLength(1);
 
@@ -67,6 +67,10 @@ public void update()   {
 		foreach (GridCell cell in location)  {
 			cell.setContents(GridCellContents.Block);
 		}
+	}
+
+	public void addJewel (GridCell location)	{
+		location.setContents(GridCellContents.Jewel);
 	}
 
 //Print grid to console for debugging

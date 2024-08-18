@@ -4,14 +4,17 @@ public partial class GridCell : Node   {
 
 	private GridCellContents contents;
 	private GridCell[] neighbors;
+	private int row, column;
 
 	public GridCell()   {
 		this.contents = GridCellContents.Empty;
 		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
 	}
 
-	public GridCell(GridCellContents gcc)  {
-		this.contents = gcc;
+	public GridCell(GridCellContents contents, int row, int column)  {
+		this.contents = contents;
+		this.row = row;
+		this.column = column;
 	}
 
 	public void setContents (GridCellContents contents)   {
@@ -31,6 +34,14 @@ public partial class GridCell : Node   {
 		return neighbors[(int)direction];
 	}
 
+	public int getRow()	{
+		return row;
+	}
+
+	public int getColumn()	{
+		return column;
+	}
+
 	public void update()   {
 		//GD.Print(toString());
 	}
@@ -43,5 +54,5 @@ public partial class GridCell : Node   {
 public enum GridCellContents {
 	Empty,
 	Block,
-	Sun
+	Jewel
 }

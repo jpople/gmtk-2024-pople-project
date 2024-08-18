@@ -6,10 +6,12 @@ public class GridController   {
 
 	private Grid grid;
 	private List<Block> blocks;
+	private List<Jewel> jewels;
 
 	public void createGrid()   {
 		grid = Grid.initialize(GridData.DEFAULT_GRID_HEIGHT, GridData.DEFAULT_GRID_WIDTH);
 		blocks = new List<Block>();
+		jewels = new List<Jewel>();
 	}
 
 	public void addBlock(int column, BlockType type)    {
@@ -27,7 +29,15 @@ public class GridController   {
 
 		grid.addBlock(location);
 		blocks.Add(new Block(type, location,grid));
-		
+
+		update();
+	}
+
+	public void addJewel(int column)	{
+		GridCell location = grid.getGridCell(grid.height-1, column);
+		grid.addJewel(location);
+		jewels.Add(new Jewel(location));
+
 		update();
 	}
 
