@@ -5,6 +5,8 @@ using Godot;
 public class GridController {
 
 	public Grid grid;
+	public bool youLose = false;
+
 	private List<Block> blocks;
 	private List<Jewel> jewels;
 	private List<Enemy> enemies;
@@ -90,7 +92,11 @@ public class GridController {
 
 	public void moveEnemies()	{
 		foreach (Enemy enemy in enemies)	{
-			enemy.move();
+			if(enemy.move())	{
+				youLose = true;
+				update();
+				return;
+			}
 		}
 		update();
 	}

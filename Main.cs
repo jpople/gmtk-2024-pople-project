@@ -52,9 +52,11 @@ public partial class Main : Node2D {
 	}
 
 	private void Advance() {
-		controller.moveBlocks();
-		controller.moveEnemies();
-		QueueRedraw();
+		if(!controller.youLose)	{
+			controller.moveBlocks();
+			controller.moveEnemies();
+			QueueRedraw();
+		}
 	}
 
 	public override void _Input(InputEvent @event) {

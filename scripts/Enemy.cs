@@ -12,7 +12,8 @@ public partial class Enemy : Node   {
 		this.location = location;
 	}
 
-	public void move()  {
+	//returns true if the player loses the game
+	public bool move()  {
 		List<GridCell> path = findPathToJewel();
 
 		if(path != null)    {
@@ -21,6 +22,8 @@ public partial class Enemy : Node   {
 			location = newLocation;
 			location.addEnemy(this);
 		}
+
+		return location.getContents() == GridCellContents.Jewel;
 	}
 
 	List<GridCell> findPathToJewel()
