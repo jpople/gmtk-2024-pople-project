@@ -37,7 +37,9 @@ public class GridController {
 	public void PlaceHeldBlock() {
 		(int location, BlockType type) = grid.GetCursorState();
 		addBlock(location, type);
-		grid.HeldBlock = BlockType.none;
+		BlockType b =  BlockTypeHelper.GetRandomBlockType();
+		grid.HeldBlock = b;
+		GD.Print(grid.HeldBlock + " was chosen as next block");
 	}
 
 	public void addJewel(int column) {
@@ -57,7 +59,7 @@ public class GridController {
 		update();
 	}
 
-	List<GridCell> determineBlockLocations(int column, BlockType type)	{
+	public List<GridCell> determineBlockLocations(int column, BlockType type)	{
 
 		if (column < 0)
 			column = 0;
@@ -66,7 +68,7 @@ public class GridController {
 
 		if (type == BlockType.pyramid && column+2 >= grid.width)
 			column -= 2;
-		else if (type != BlockType.oneSquare && column+1 >= grid.width)
+		else if (column+1 >= grid.width)
 			column -= 1;
 
 		List<GridCell> location = new List<GridCell>();

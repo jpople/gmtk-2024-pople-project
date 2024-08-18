@@ -3,7 +3,6 @@ using System;
 using Godot;
 
 public enum BlockType {
-	oneSquare,
 	twoSquare,
 	smallL,
 	bigL,
@@ -15,12 +14,6 @@ public enum BlockType {
 public static class BlockTypeHelper {
 	public static int[,] getPattern(this BlockType block) {
 		switch (block) {
-			case BlockType.oneSquare:
-				int[,] os = {{1, 0, 0},
-							 {0, 0, 0},
-						 	{0, 0, 0}};
-				return os;
-
 			case BlockType.twoSquare:
 				int[,] ts = {{1, 1, 0},
 						 	{1, 1, 0},
@@ -53,5 +46,9 @@ public static class BlockTypeHelper {
 		return null;
 	}
 
-	public static BlockType GetRandomBlockType() => (BlockType)(GD.Randi() % Enum.GetValues<BlockType>().Length-1);
+	public static BlockType GetRandomBlockType()	{
+		BlockType b = (BlockType)(GD.Randi() % (Enum.GetValues<BlockType>().Length-1));
+		GD.Print(b + " was chosen as next block");
+		return b;
+	}
 }

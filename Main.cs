@@ -40,15 +40,20 @@ public partial class Main : Node2D {
 			if(cell.hasEnemy())
 				DrawTexture(antTexture, position);
 		}
+ 
 		(int cursorLocation, BlockType? heldBlock) = controller.GetCursorState();
 		if (heldBlock == BlockType.none) {
 			return;
 		}
-		var cursorPosition = new Vector2() {
-			X = cursorLocation * GridData.CELL_WIDTH,
-			Y = 0
-		};
-		DrawTexture(brickTexture, cursorPosition, new Color(1, 1, 1, 0.5f));
+		else{
+			foreach(GridCell location in controller.determineBlockLocations(cursorLocation,controller.grid.HeldBlock))	{
+				var cursorPosition = new Vector2() {
+					X = location.getColumn() * GridData.CELL_WIDTH,
+					Y = location.getRow() * GridData.CELL_HEIGHT
+				};
+			DrawTexture(brickTexture, cursorPosition, new Color(1, 1, 1, 0.5f));
+			}
+		}
 	}
 
 	private void Advance() {

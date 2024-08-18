@@ -9,10 +9,10 @@ public partial class Grid : Node {
 	public int width = GridData.DEFAULT_GRID_WIDTH;
 	public int height = GridData.DEFAULT_GRID_HEIGHT;
 
-	BlockType heldBlock = BlockType.none;
+	BlockType heldBlock;
 	public BlockType HeldBlock {
 		get => heldBlock;
-		set => value = heldBlock;
+		set => heldBlock = value;
 	}
 
 	int cursorLocation;
@@ -22,7 +22,7 @@ public partial class Grid : Node {
 		Grid grid = new Grid();
 		grid.createCells();
 		grid.update();
-		grid.heldBlock = BlockType.oneSquare;
+		grid.heldBlock = BlockTypeHelper.GetRandomBlockType();
 		return grid;
 	}
 
@@ -32,7 +32,7 @@ public partial class Grid : Node {
 		grid.height = map.GetLength(0);
 		grid.width = map.GetLength(1);
 		grid.update();
-		grid.heldBlock = BlockType.oneSquare;
+		grid.heldBlock = BlockTypeHelper.GetRandomBlockType();
 		return grid;
 	}
 
