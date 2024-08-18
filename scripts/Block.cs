@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using Godot;
 public partial class Block : Node   {
+
+	private Grid grid;
 	private List<GridCell> location;
 	private BlockType type;
 
-	public Block(BlockType type, List<GridCell> location)    {
+	public Block(BlockType type, List<GridCell> location, Grid grid)    {
 		this.location = location;
 		this.type = type;
+		this.grid = grid;
 	}
 
 	public void update()    {
@@ -35,9 +38,4 @@ public partial class Block : Node   {
 		}
 		return true;
 	}
-}
-
-public enum BlockType   {
-	oneSquare,
-	twoSquare
 }
