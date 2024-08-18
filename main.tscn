@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dccubrduuquin"]
+[gd_scene load_steps=2 format=3 uid="uid://dccubrduuquin"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_xogmg"]
-[ext_resource type="Texture2D" uid="uid://bb10moqk11tbb" path="res://noise.png" id="2_p73y1"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xogmg")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_p73y1")
