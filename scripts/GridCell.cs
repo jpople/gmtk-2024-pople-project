@@ -5,13 +5,13 @@ public partial class GridCell : Node {
 
 	private GridCellContents contents;
 	private GridCell[] neighbors;
+	private List<Enemy> enemies;
 	private int row, column;
 
 	public static Dictionary<GridCellContents, char> ASCIIMap = new() {
 		{GridCellContents.Empty, '.'},
 		{GridCellContents.Jewel, '*'},
-		{GridCellContents.Block, 'X'},
-		{GridCellContents.Enemy, '%'}
+		{GridCellContents.Block, 'X'}
 	};
 
 	public GridCell() {
@@ -24,10 +24,23 @@ public partial class GridCell : Node {
 		this.row = row;
 		this.column = column;
 		neighbors = new GridCell[Enum.GetValues(typeof(GridDirection)).Length];
+		enemies = new List<Enemy>();
 	}
 
 	public void setContents(GridCellContents contents) {
 		this.contents = contents;
+	}
+
+	public void addEnemy(Enemy enemy)	{
+		enemies.Add(enemy);
+	}
+
+	public void removeEnemy(Enemy enemy)	{
+		enemies.Remove(enemy);
+	}
+
+	public bool hasEnemy()	{
+		return enemies.Count > 0;
 	}
 
 	public GridCellContents getContents() {
@@ -52,6 +65,8 @@ public partial class GridCell : Node {
 	}
 
 	public override string ToString() {
+		if(enemies.Count > 0)
+			return "%";
 		return $"{ASCIIMap[contents]}";
 	}
 }
@@ -59,6 +74,5 @@ public partial class GridCell : Node {
 public enum GridCellContents {
 	Empty,
 	Block,
-	Jewel,
-	Enemy
+	Jewel
 }

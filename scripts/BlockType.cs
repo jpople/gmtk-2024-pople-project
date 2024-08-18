@@ -7,7 +7,8 @@ public enum BlockType {
 	twoSquare,
 	smallL,
 	bigL,
-	none,
+	smallT,
+	none
 }
 
 public static class BlockTypeHelper {
@@ -21,21 +22,27 @@ public static class BlockTypeHelper {
 
 			case BlockType.twoSquare:
 				int[,] ts = {{1, 1, 0},
-						 {1, 1, 0},
-						 {0, 0, 0}};
+						 	{1, 1, 0},
+						 	{0, 0, 0}};
 				return ts;
 
 			case BlockType.smallL:
 				int[,] sl = {{0, 1, 0},
-						 {1, 1, 0},
-						 {0, 0, 0}};
+						 	{1, 1, 0},
+						 	{0, 0, 0}};
 				return sl;
 
 			case BlockType.bigL:
 				int[,] bl = {{0, 1, 0},
-						 {0, 1, 0},
-						 {1, 1, 0}};
+						 	{0, 1, 0},
+						 	{1, 1, 0}};
 				return bl;
+
+			case BlockType.smallT:
+				int[,] bt = {{0, 1, 0},
+						 	 {1, 1, 0},
+						 	 {0, 1, 0}};
+				return bt;
 		}
 		return null;
 	}

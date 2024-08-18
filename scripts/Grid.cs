@@ -110,8 +110,8 @@ public partial class Grid : Node {
 		cursorLocation = Mathf.Clamp(cursorLocation + direction, 0, GridData.DEFAULT_GRID_WIDTH - 1);
 	}
 
-	public void addEnemy(GridCell location) {
-		location.setContents(GridCellContents.Enemy);
+	public void addEnemy(GridCell location, Enemy e) {
+		location.addEnemy(e);
 	}
 
 	//Print grid to console for debugging

@@ -16,14 +16,14 @@ public class GridController {
 		enemies = new List<Enemy>();
 	}
 
-	public void createGrid(int[,] grid) {
+	public void createGrid(int[,] grid)	{
 		this.grid = Grid.initialize(grid);
 		blocks = new List<Block>();
 		jewels = new List<Jewel>();
 		enemies = new List<Enemy>();
 	}
 
-	public void addBlock(int column, BlockType type) {
+	public void addBlock(int column, BlockType type)    {
 		List<GridCell> location = determineBlockLocations(column, type);
 
 		grid.addBlock(location);
@@ -46,24 +46,25 @@ public class GridController {
 		update();
 	}
 
-	public void addEnemy(int row, int column) {
+	public void addEnemy(int row, int column)	{
 		GridCell location = grid.getGridCell(row, column);
-		grid.addEnemy(location);
-		enemies.Add(new Enemy(grid, location));
+		Enemy e = new Enemy(grid, location);
+		enemies.Add(e);
+		grid.addEnemy(location, e);
 
 		update();
 	}
 
-	List<GridCell> determineBlockLocations(int column, BlockType type) {
+	List<GridCell> determineBlockLocations(int column, BlockType type)	{
 
 		if (column < 0)
 			column = 0;
 		else if (column > grid.width)
 			column = grid.width;
 
-		if (column + 2 >= grid.width)
+		if (column+2 >= grid.width)
 			column -= 2;
-		else if (column + 1 >= grid.width)
+		else if (column+1 >= grid.width)
 			column -= 1;
 
 		List<GridCell> location = new List<GridCell>();
@@ -87,8 +88,8 @@ public class GridController {
 		update();
 	}
 
-	public void moveEnemies() {
-		foreach (Enemy enemy in enemies) {
+	public void moveEnemies()	{
+		foreach (Enemy enemy in enemies)	{
 			enemy.move();
 		}
 		update();

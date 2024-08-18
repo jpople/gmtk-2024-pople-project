@@ -14,12 +14,12 @@ public partial class Enemy : Node   {
 
 	public void move()  {
 		List<GridCell> path = findPathToJewel();
-		GridCell newLocation = path[0];
 
 		if(path != null)    {
-			location.setContents(GridCellContents.Block);
+			GridCell newLocation = path[0];
+			location.removeEnemy(this);
 			location = newLocation;
-			location.setContents(GridCellContents.Enemy);
+			location.addEnemy(this);
 		}
 	}
 
