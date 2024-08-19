@@ -4,7 +4,7 @@ using Godot;
 public partial class Main : Node2D {
 	
 	private const int EnemySpawnRate = 7;
-	private const int EnemySpeed = 3;
+	private const int EnemySpeed = 2;
 	
 	Texture2D brickTexture = GD.Load<Texture2D>("res://sprites/tile_brick.png");
 	Texture2D sunTexture = GD.Load<Texture2D>("res://sprites/tile_sun.png");
