@@ -4,10 +4,15 @@ using Godot;
 
 public enum BlockType {
 	twoSquare,
-	smallL,
-	bigL,
-	smallT,
+	smallLL,
+	smallLR,
+	bigLL,
+	bigLR,
+	smallTR,
+	smallTL,
 	pyramid,
+	smallN,
+	bigN,
 	none
 }
 
@@ -20,28 +25,57 @@ public static class BlockTypeHelper {
 						 	{0, 0, 0}};
 				return ts;
 
-			case BlockType.smallL:
-				int[,] sl = {{0, 1, 0},
+			case BlockType.smallLL:
+				int[,] sll = {{0, 1, 0},
 						 	{1, 1, 0},
 						 	{0, 0, 0}};
-				return sl;
+				return sll;
 
-			case BlockType.bigL:
-				int[,] bl = {{0, 1, 0},
+			case BlockType.smallLR:
+				int[,] slr = {{1, 0, 0},
+						 	{1, 1, 0},
+						 	{0, 0, 0}};
+				return slr;
+
+			case BlockType.bigLR:
+				int[,] blr = {{1, 0, 0},
+						 	{1, 0, 0},
+						 	{1, 1, 0}};
+				return blr;
+
+			case BlockType.bigLL:
+				int[,] bll = {{0, 1, 0},
 						 	{0, 1, 0},
 						 	{1, 1, 0}};
-				return bl;
+				return bll;
 
-			case BlockType.smallT:
-				int[,] bt = {{0, 1, 0},
+			case BlockType.smallTR:
+				int[,] str = {{0, 1, 0},
 						 	 {1, 1, 0},
 						 	 {0, 1, 0}};
-				return bt;
+				return str;
+			case BlockType.smallTL:
+				int[,] stl = {{1, 0, 0},
+						 	 {1, 1, 0},
+						 	 {1, 0, 0}};
+				return stl;
 			case BlockType.pyramid:
 				int[,] p = {{0, 0, 0},
 						 	 {0, 1, 0},
 						 	 {1, 1, 1}};
 				return p;
+
+			case BlockType.bigN:
+				int[,] bn = {{1, 0, 1},
+						 	 {1, 1, 1},
+						 	 {1, 0, 1}};
+				return bn;
+
+			case BlockType.smallN:
+				int[,] sn = {{0, 0, 0},
+						 	 {1, 1, 1},
+						 	 {1, 0, 1}};
+				return sn;
 		}
 		return null;
 	}
