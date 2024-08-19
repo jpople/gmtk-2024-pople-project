@@ -2,11 +2,16 @@ using System;
 using Godot;
 
 public partial class Main : Node2D {
+	
+	private const int EnemySpawnRate = 7;
+	private const int EnemySpeed = 3;
+	
 	Texture2D brickTexture = GD.Load<Texture2D>("res://sprites/tile_brick.png");
 	Texture2D sunTexture = GD.Load<Texture2D>("res://sprites/tile_sun.png");
 	Texture2D antTexture = GD.Load<Texture2D>("res://sprites/ants.png");
 
 	GridController controller;
+	int turnCounter = 0;
 
 	public override void _Ready() {
 		GetWindow().Size = new Vector2I() {
@@ -17,8 +22,6 @@ public partial class Main : Node2D {
 		controller = new GridController();
 		controller.createGrid();
 		controller.addJewel(GridData.DEFAULT_GRID_WIDTH/2);
-		controller.addEnemy(GridData.DEFAULT_GRID_HEIGHT-1, GridData.DEFAULT_GRID_WIDTH-1);
-		controller.addEnemy(GridData.DEFAULT_GRID_HEIGHT-1, 0);
 	}
 
 	public override void _Draw() {
@@ -59,9 +62,18 @@ public partial class Main : Node2D {
 	private void Advance() {
 		if(!controller.youLose)	{
 			controller.moveBlocks();
-			controller.moveEnemies();
+			if (turnCounter % EnemySpeed == 0)	{
+				controller.moveEnemies();
+			}
 			QueueRedraw();
 		}
+
+		if(turnCounter != 0 && turnCounter % EnemySpawnRate == 0 && turnCounter > 30)	{
+			GridCell randomCell = controller.grid.getGridCell(GridData.DEFAULT_GRID_HEIGHT-1, (int)(GD.Randi() % GridData.DEFAULT_GRID_WIDTH));
+			if(!randomCell.hasEnemy())
+				controller.addEnemy(randomCell);
+		}
+		turnCounter++;
 	}
 
 	public override void _Input(InputEvent @event) {

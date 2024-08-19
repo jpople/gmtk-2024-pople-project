@@ -128,8 +128,8 @@ public partial class Grid : Node {
 		GD.Print(print);
 	}
 
-	public GridCell getGridCell(int column, int row) {
-		return cells[column, row];
+	public GridCell getGridCell(int row, int column) {
+		return cells[row, column];
 	}
 
 	public (int column, BlockType type) GetCursorState() => (cursorLocation, heldBlock);

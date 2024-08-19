@@ -50,8 +50,7 @@ public class GridController {
 		update();
 	}
 
-	public void addEnemy(int row, int column)	{
-		GridCell location = grid.getGridCell(row, column);
+	public void addEnemy(GridCell location)	{
 		Enemy e = new Enemy(grid, location);
 		enemies.Add(e);
 		grid.addEnemy(location, e);
