@@ -4,11 +4,14 @@ using Godot;
 public partial class Main : Node2D {
 	
 	private const int EnemySpawnRate = 7;
-	private const int EnemySpeed = 2;
+	private const int EnemySpeed = 5;
+	private const int EnemySpawnDelay = 55;
 	
 	Texture2D brickTexture = GD.Load<Texture2D>("res://sprites/tile_brick.png");
 	Texture2D sunTexture = GD.Load<Texture2D>("res://sprites/tile_sun.png");
 	Texture2D antTexture = GD.Load<Texture2D>("res://sprites/ants.png");
+
+	Timer timer;
 
 	GridController controller;
 	int turnCounter = 0;
@@ -22,6 +25,9 @@ public partial class Main : Node2D {
 		controller = new GridController();
 		controller.createGrid();
 		controller.addJewel(GridData.DEFAULT_GRID_WIDTH/2);
+
+		timer = GetNode<Timer>("Timer");
+		timer.Timeout += () => Advance(false);
 	}
 
 	public override void _Draw() {
@@ -59,21 +65,21 @@ public partial class Main : Node2D {
 		}
 	}
 
-	private void Advance() {
-		if(!controller.youLose)	{
+	private void Advance(bool userMove) {
+		if(!controller.youLose && !userMove)	{
 			controller.moveBlocks();
 			if (turnCounter % EnemySpeed == 0)	{
 				controller.moveEnemies();
 			}
-			QueueRedraw();
-		}
+		turnCounter++;
 
-		if(turnCounter != 0 && turnCounter % EnemySpawnRate == 0 && turnCounter > 30)	{
+		if(turnCounter % EnemySpawnRate == 0 && turnCounter > EnemySpawnDelay)	{
 			GridCell randomCell = controller.grid.getGridCell(GridData.DEFAULT_GRID_HEIGHT-1, (int)(GD.Randi() % GridData.DEFAULT_GRID_WIDTH));
 			if(!randomCell.hasEnemy())
 				controller.addEnemy(randomCell);
+			}
 		}
-		turnCounter++;
+		QueueRedraw();
 	}
 
 	public override void _Input(InputEvent @event) {
@@ -82,16 +88,17 @@ public partial class Main : Node2D {
 		}
 		switch (e.Keycode) {
 			case Key.Space:
+				timer.Start();
 				controller.PlaceHeldBlock();
-				Advance();
+				Advance(true);
 				break;
 			case Key.Left:
 				controller.MoveCursor(-1);
-				Advance();
+				Advance(true);
 				break;
 			case Key.Right:
 				controller.MoveCursor(+1);
-				Advance();
+				Advance(true);
 				break;
 		}
 	}

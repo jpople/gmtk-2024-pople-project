@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class Block : Node   {
@@ -14,44 +15,37 @@ public partial class Block : Node   {
 		this.grid = grid;
 	}
 
-	public void update()    {
-
-	}
-
-	public void move(GridDirection direction)  {
-		if(canMove(direction))  {
-			for (int i = location.Count-1;i >= 0 ;i--) {
-				int columnContainJewel = -10;
-
-				if (location[i].getNeighbor(direction).getContents() == GridCellContents.Jewel)
-					columnContainJewel = location[i].getColumn();
-
-				location[i].setContents(GridCellContents.Empty);
-				location[i] = location[i].getNeighbor(direction);
-				location[i].setContents(GridCellContents.Block);
-
-				if(columnContainJewel != -10)  {
-					GridCell newJewelLocation = location[i].getNeighbor(GridDirection.N);
-
-					while (location.Contains(newJewelLocation) == true)    {
-						newJewelLocation = newJewelLocation.getNeighbor(GridDirection.N);
-					}
-
-					newJewelLocation.setContents(GridCellContents.Jewel);
-				}
+	public void moveBlock(GridDirection direction)  {
+		GridCell jewelCell = null;
+		foreach (GridCell cell in location) {
+			GridCell targetCell = cell.getNeighbor(direction);
+			if (canMove(targetCell))	{
+				jewelCell = (targetCell.getContents() == GridCellContents.Jewel && jewelCell == null ) ? targetCell : jewelCell;
+				continue;
 			}
+
+			return;
+		}
+
+		for (int i = location.Count-1;i >= 0 ;i--) {
+			location[i] = move(location[i], direction);
+		}
+
+		if (jewelCell != null)	{
+				GridCell newJewelLocation = location.FirstOrDefault(c => c.getNeighbor(GridDirection.N).getContents() == GridCellContents.Empty).getNeighbor(GridDirection.N);
+				newJewelLocation.setContents(GridCellContents.Jewel);
 		}
 	}
 
-	bool canMove(GridDirection direction)   {
-		foreach (GridCell cell in location)
-		{
-			if (cell.getNeighbor(direction) == null)
-				return false;
-			else if (cell.getNeighbor(direction).getContents() == GridCellContents.Block && location.Contains(cell.getNeighbor(direction)) == false)   {
-				return false;
-			}
-		}
-		return true;
+	private GridCell move(GridCell cell, GridDirection direction)	{
+
+		cell.setContents(GridCellContents.Empty);
+		cell.getNeighbor(direction).setContents(GridCellContents.Block);
+
+		return cell.getNeighbor(direction);
+	}
+
+	private bool canMove(GridCell targetCell)	{
+		return targetCell != null && (location.Contains(targetCell) || targetCell.getContents() != GridCellContents.Block);
 	}
 }

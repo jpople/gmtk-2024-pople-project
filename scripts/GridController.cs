@@ -30,8 +30,6 @@ public class GridController {
 
 		grid.addBlock(location);
 		blocks.Add(new Block(type, location, grid));
-
-		update();
 	}
 
 	public void PlaceHeldBlock() {
@@ -46,16 +44,12 @@ public class GridController {
 		GridCell location = grid.getGridCell(grid.height - 1, column);
 		grid.addJewel(location);
 		jewels.Add(new Jewel(location));
-
-		update();
 	}
 
 	public void addEnemy(GridCell location)	{
 		Enemy e = new Enemy(grid, location);
 		enemies.Add(e);
 		grid.addEnemy(location, e);
-
-		update();
 	}
 
 	public List<GridCell> determineBlockLocations(int column, BlockType type)	{
@@ -86,26 +80,16 @@ public class GridController {
 
 	public void moveBlocks() {
 		foreach (Block block in blocks) {
-			block.move(GridDirection.S);
+			block.moveBlock(GridDirection.S);
 		}
-		update();
 	}
 
 	public void moveEnemies()	{
 		foreach (Enemy enemy in enemies)	{
 			if(enemy.move())	{
 				youLose = true;
-				update();
 				return;
 			}
-		}
-		update();
-	}
-
-	public void update() {
-		grid.update();
-		foreach (Block block in blocks) {
-			block.update();
 		}
 	}
 

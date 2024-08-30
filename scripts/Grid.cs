@@ -21,7 +21,6 @@ public partial class Grid : Node {
 	public static Grid initialize() {
 		Grid grid = new Grid();
 		grid.createCells();
-		grid.update();
 		grid.heldBlock = BlockTypeHelper.GetRandomBlockType();
 		return grid;
 	}
@@ -31,25 +30,9 @@ public partial class Grid : Node {
 		grid.createCells(map);
 		grid.height = map.GetLength(0);
 		grid.width = map.GetLength(1);
-		grid.update();
 		grid.heldBlock = BlockTypeHelper.GetRandomBlockType();
 		return grid;
 	}
-
-	//Updates all cells in the grid to be called on a regular cadence. A floating block falls, enemies climb, and user input is reflected
-	public void update() {
-		int rows = cells.GetLength(0);
-		int columns = cells.GetLength(1);
-
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				// cells[i, j].update();
-			}
-		}
-
-		print();
-	}
-
 
 	//Builds cell array and populate with empty instances
 	void createCells() {
