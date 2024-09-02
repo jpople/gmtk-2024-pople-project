@@ -7,6 +7,7 @@ public partial class GridCell : Node2D {
 	private GridCell[] neighbors;
 	private List<Enemy> enemies;
 	private int row, column;
+	private Block block;
 
 	public static Dictionary<GridCellContents, Texture2D> textureMap = new() {
 		{GridCellContents.Jewel, GD.Load<Texture2D>("res://sprites/tile_sun.png")},
@@ -27,7 +28,13 @@ public partial class GridCell : Node2D {
 		enemies = new List<Enemy>();
 	}
 
+	public void addBlock (Block block)	{
+		this.block = block;
+		contents = GridCellContents.Block;
+	}
 	public void setContents(GridCellContents contents) {
+		if (contents == GridCellContents.Empty || contents == GridCellContents.Jewel)
+			block = null;
 		this.contents = contents;
 	}
 
@@ -76,7 +83,10 @@ public partial class GridCell : Node2D {
 	}
 	
 	public Texture2D getTexture()	{
-		return textureMap[contents];
+		if (contents != GridCellContents.Block || block == null)
+			return textureMap[contents];
+
+		return GD.Load<Texture2D>("res://sprites/Brick"+block.getBlockColor()+".jpg");
 	}
 }
 

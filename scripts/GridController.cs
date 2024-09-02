@@ -28,8 +28,9 @@ public class GridController {
 	public void addBlock(int column, BlockType type)    {
 		List<GridCell> location = determineBlockLocations(column, type);
 
-		grid.addBlock(location);
-		blocks.Add(new Block(type, location, grid));
+		Block newBlock = new Block(type, location, grid);
+		grid.addBlock(location,newBlock);
+		blocks.Add(newBlock);
 	}
 
 	public void PlaceHeldBlock() {

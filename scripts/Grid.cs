@@ -76,9 +76,9 @@ public partial class Grid : Node {
 		}
 	}
 
-	public void addBlock(List<GridCell> location) {
+	public void addBlock(List<GridCell> location, Block block) {
 		foreach (GridCell cell in location) {
-			cell.setContents(GridCellContents.Block);
+			cell.addBlock(block);
 		}
 	}
 
