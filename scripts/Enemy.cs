@@ -4,6 +4,11 @@ using Godot;
 
 public partial class Enemy : Node   {
 
+	public const int EnemySpawnRate = 7;
+	public const int EnemySpeed = 5;
+	public const int EnemySpawnDelay = 55;
+
+
 	Grid grid;
 	GridCell location;
 
@@ -94,7 +99,7 @@ public partial class Enemy : Node   {
 			return false;
 
 		bool isBound = location.getRow() >= 0 && location.getRow() < grid.height && location.getColumn() >= 0 && location.getColumn() < grid.width;
-		bool isValid = (location.getContents() == GridCellContents.Block || location.getContents() == GridCellContents.Jewel);
+		bool isValid = location.getContents() == GridCellContents.Block || location.getContents() == GridCellContents.Jewel;
 		bool isUnvisited = !visited[location.getRow(), location.getColumn()];
 		
 		// Check if the position is within bounds, is an allowable terrain, and has not been visited yet

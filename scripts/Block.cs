@@ -7,12 +7,21 @@ public partial class Block : Node   {
 
 	private Grid grid;
 	private List<GridCell> location;
+	private int newJewelLocationIndex;
 	private BlockType type;
 
 	public Block(BlockType type, List<GridCell> location, Grid grid)    {
 		this.location = location;
 		this.type = type;
 		this.grid = grid;
+
+		List<int> jewelLocations = new List<int>();
+
+		foreach (GridCell cell in location)	{
+			if (cell.emptyTop())
+				jewelLocations.Add(location.IndexOf(cell));
+		}
+		newJewelLocationIndex =  jewelLocations[(int)(GD.Randi() % jewelLocations.Count)];
 	}
 
 	public void moveBlock(GridDirection direction)  {
@@ -31,10 +40,8 @@ public partial class Block : Node   {
 			location[i] = move(location[i], direction);
 		}
 
-		if (jewelCell != null)	{
-				GridCell newJewelLocation = location.FirstOrDefault(c => c.getNeighbor(GridDirection.N).getContents() == GridCellContents.Empty).getNeighbor(GridDirection.N);
-				newJewelLocation.setContents(GridCellContents.Jewel);
-		}
+		if (jewelCell != null)
+				location[newJewelLocationIndex].getNeighbor(GridDirection.N).setContents(GridCellContents.Jewel);
 	}
 
 	private GridCell move(GridCell cell, GridDirection direction)	{

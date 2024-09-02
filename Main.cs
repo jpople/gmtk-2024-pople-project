@@ -2,19 +2,12 @@ using System;
 using Godot;
 
 public partial class Main : Node2D {
-	
-	private const int EnemySpawnRate = 7;
-	private const int EnemySpeed = 5;
-	private const int EnemySpawnDelay = 55;
-	
-	Texture2D brickTexture = GD.Load<Texture2D>("res://sprites/tile_brick.png");
-	Texture2D sunTexture = GD.Load<Texture2D>("res://sprites/tile_sun.png");
-	Texture2D antTexture = GD.Load<Texture2D>("res://sprites/ants.png");
 
 	Timer timer;
 
 	GridController controller;
 	int turnCounter = 0;
+	Texture2D antTexture = GD.Load<Texture2D>("res://sprites/ants.png");
 
 	public override void _Ready() {
 		GetWindow().Size = new Vector2I() {
@@ -32,48 +25,28 @@ public partial class Main : Node2D {
 
 	public override void _Draw() {
 		foreach (GridCell cell in controller.GetCells()) {
-			var texture = cell.getContents() switch {
-				GridCellContents.Block => brickTexture,
-				GridCellContents.Jewel => sunTexture,
-				_ => null
-			};
-
-			var position = new Vector2() {X = cell.getColumn() * GridData.CELL_WIDTH,
-			Y = cell.getRow() * GridData.CELL_HEIGHT};
-
-			if (texture != null) {
-				
-				DrawTexture(texture, position);
+			DrawTexture(cell.getTexture(), cell.getPosition());
+			if (cell.hasEnemy())	{
+				DrawTexture(antTexture,cell.getPosition());
 			}
-			
-			if(cell.hasEnemy())
-				DrawTexture(antTexture, position);
 		}
- 
+
 		(int cursorLocation, BlockType? heldBlock) = controller.GetCursorState();
-		if (heldBlock == BlockType.none) {
-			return;
-		}
-		else{
-			foreach(GridCell location in controller.determineBlockLocations(cursorLocation,controller.grid.HeldBlock))	{
-				var cursorPosition = new Vector2() {
-					X = location.getColumn() * GridData.CELL_WIDTH,
-					Y = location.getRow() * GridData.CELL_HEIGHT
-				};
-			DrawTexture(brickTexture, cursorPosition, new Color(1, 1, 1, 0.5f));
-			}
+		
+		foreach(GridCell cell in controller.determineBlockLocations(cursorLocation,controller.grid.HeldBlock))	{
+			DrawTexture(GridCell.textureMap[GridCellContents.Block], cell.getPosition(), new Color(1, 1, 1, 0.5f));
 		}
 	}
 
 	private void Advance(bool userMove) {
 		if(!controller.youLose && !userMove)	{
 			controller.moveBlocks();
-			if (turnCounter % EnemySpeed == 0)	{
+			if (turnCounter % Enemy.EnemySpeed == 0)	{
 				controller.moveEnemies();
 			}
 		turnCounter++;
 
-		if(turnCounter % EnemySpawnRate == 0 && turnCounter > EnemySpawnDelay)	{
+		if(turnCounter % Enemy.EnemySpawnRate == 0 && turnCounter > Enemy.EnemySpawnDelay)	{
 			GridCell randomCell = controller.grid.getGridCell(GridData.DEFAULT_GRID_HEIGHT-1, (int)(GD.Randi() % GridData.DEFAULT_GRID_WIDTH));
 			if(!randomCell.hasEnemy())
 				controller.addEnemy(randomCell);

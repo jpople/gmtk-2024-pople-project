@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-public partial class GridCell : Node {
+public partial class GridCell : Node2D {
 
 	private GridCellContents contents;
 	private GridCell[] neighbors;
 	private List<Enemy> enemies;
 	private int row, column;
 
-	public static Dictionary<GridCellContents, char> ASCIIMap = new() {
-		{GridCellContents.Empty, '.'},
-		{GridCellContents.Jewel, '*'},
-		{GridCellContents.Block, 'X'}
+	public static Dictionary<GridCellContents, Texture2D> textureMap = new() {
+		{GridCellContents.Jewel, GD.Load<Texture2D>("res://sprites/tile_sun.png")},
+		{GridCellContents.Block, GD.Load<Texture2D>("res://sprites/BrickOrange.jpg")},
+		{GridCellContents.Empty, GD.Load<Texture2D>("res://sprites/TransparentSquare.png")}
 	};
 
 	public GridCell() {
@@ -43,6 +43,12 @@ public partial class GridCell : Node {
 		return enemies.Count > 0;
 	}
 
+	public bool emptyTop()	{
+		GridCell north = getNeighbor(GridDirection.N);
+		
+		return (north != null) ? north.getContents() == GridCellContents.Empty : true;
+	}
+
 	public GridCellContents getContents() {
 		return contents;
 	}
@@ -64,10 +70,13 @@ public partial class GridCell : Node {
 		return column;
 	}
 
-	public override string ToString() {
-		if(enemies.Count > 0)
-			return "%";
-		return $"{ASCIIMap[contents]}";
+	public Vector2 getPosition()	{
+		return new Vector2() {X = column * GridData.CELL_WIDTH,
+			Y = row * GridData.CELL_HEIGHT};
+	}
+	
+	public Texture2D getTexture()	{
+		return textureMap[contents];
 	}
 }
 
